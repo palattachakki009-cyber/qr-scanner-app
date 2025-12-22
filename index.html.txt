@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Scan QR</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 10px;
+    }
+    #reader {
+      width: 300px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+
+<h3>Scan QR Code</h3>
+<div id="reader"></div>
+
+<script>
+  const tg = window.Telegram.WebApp;
+  tg.expand();
+
+  const qrCodeScanner = new Html5Qrcode("reader");
+
+  qrCodeScanner.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    (decodedText) => {
+      tg.sendData(decodedText); // send sheet link to bot
+      qrCodeScanner.stop();
+    }
+  );
+</script>
+
+</body>
+</html>
